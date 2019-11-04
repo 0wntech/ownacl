@@ -24,6 +24,8 @@
   "homepage": "https://github.com/0wntech/ownacl#readme",
   "dependencies": {
     "chai": "^4.2.0",
-    "mocha": "^6.2.2"
+    "mocha": "^6.2.2",
+    "rdflib": "^1.0.6",
+    "solid-namespace": "^0.2.0"
   }
 }

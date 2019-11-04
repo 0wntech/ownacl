@@ -1,0 +1,18 @@
+@prefix : <#>.
+@prefix n0: <http://www.w3.org/ns/auth/acl#>.
+@prefix pro: <./>.
+@prefix c: <card#>.
+@prefix n1: <http://xmlns.com/foaf/0.1/>.
+
+:ControlReadWrite
+    a n0:Authorization;
+    n0:accessTo pro:;
+    n0:agent c:me;
+    n0:default pro:;
+    n0:mode n0:Control, n0:Read, n0:Write.
+:Read
+    a n0:Authorization;
+    n0:accessTo pro:;
+    n0:agentClass n1:Agent;
+    n0:default pro:;
+    n0:mode n0:Read.
