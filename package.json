@@ -1,0 +1,29 @@
+{
+  "name": "ownacl",
+  "version": "0.0.1",
+  "description": "A library to manage access in solid pods.",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/0wntech/ownacl.git"
+  },
+  "keywords": [
+    "Linked\\",
+    "Data",
+    "Solid",
+    "Owntech"
+  ],
+  "author": "Ludwig Schubert",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/0wntech/ownacl/issues"
+  },
+  "homepage": "https://github.com/0wntech/ownacl#readme",
+  "dependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^6.2.2"
+  }
+}
