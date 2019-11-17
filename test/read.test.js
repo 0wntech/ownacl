@@ -22,7 +22,7 @@ describe("read", () => {
   describe("read()", () => {
     it("fetches and reads the resource", () => {
       return acl.read().then(triples => {
-        fs.promises
+        return fs.promises
           .readFile("./test/resources/test.acl", "utf-8")
           .then(file => {
             expect(triples).to.equal(file);
@@ -84,7 +84,7 @@ describe("read", () => {
         }
       ];
       return acl.readAgentGroups().then(agentGroups => {
-        expect(agentGroups).to.deep.equal(agentGroupsToMatch);
+        return expect(agentGroups).to.deep.equal(agentGroupsToMatch);
       });
     });
   });
