@@ -49,8 +49,10 @@ describe("add", () => {
           access: ["http://www.w3.org/ns/auth/acl#Read"]
         }
       ];
-      return acl.addAgent(agentToAdd).then(agents => {
-        return expect(agents).to.deep.equal(agentsToMatch);
+      return acl.addAgent(agentToAdd).then(() => {
+        return acl.readAgentsAndAccess(agents => {
+          return expect(agents).to.deep.equal(agentsToMatch);
+        });
       });
     });
 
@@ -80,35 +82,10 @@ describe("add", () => {
           access: ["http://www.w3.org/ns/auth/acl#Read"]
         }
       ];
-      return acl.addAgent(agentToAdd).then(agents => {
-        return expect(agents).to.deep.equal(agentsToMatch);
-      });
-    });
-  });
-
-  describe("addAgentGroup()", () => {
-    xit("adds agentGroups with the specified access", () => {
-      accesseesToMatch = [
-        {
-          name: "https://lalasepp1.solid.community/profile/card#me",
-          type: "Agent",
-          identifier:
-            "https://lalasepp1.solid.community/profile/.acl#ControlReadWrite",
-          access: [
-            "http://www.w3.org/ns/auth/acl#Control",
-            "http://www.w3.org/ns/auth/acl#Read",
-            "http://www.w3.org/ns/auth/acl#Write"
-          ]
-        },
-        {
-          name: "http://xmlns.com/foaf/0.1/Agent",
-          type: "AgentGroup",
-          identifier: "https://lalasepp1.solid.community/profile/.acl#Read",
-          access: ["http://www.w3.org/ns/auth/acl#Read"]
-        }
-      ];
-      return acl.readAgentsAndAccess().then(accessees => {
-        expect(accessees).to.deep.equal(accesseesToMatch);
+      return acl.addAgent(agentToAdd).then(() => {
+        return acl.readAgentsAndAccess(agents => {
+          return expect(agents).to.deep.equal(agentsToMatch);
+        });
       });
     });
   });
@@ -120,6 +97,6 @@ describe("add", () => {
       access: ["http://www.w3.org/ns/auth/acl#Read"]
     };
 
-    return acl.deleteAgent(addedAgent);
+    return acl.deleteAgent(addedAgent, { debug: true });
   });
 });
