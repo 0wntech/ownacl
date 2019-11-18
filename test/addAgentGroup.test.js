@@ -1,14 +1,14 @@
 const { expect } = require("chai");
 const auth = require("solid-auth-cli");
 const rdf = require("rdflib");
-const fs = require("fs");
 const aclClient = require("../index");
 
 const resource = "https://lalasepp1.solid.community/profile/.acl";
 const acl = new aclClient(resource);
 
-describe("add", () => {
+describe("adding an AgentGroup", () => {
   before("Setting up auth...", async function() {
+    this.timeout(5000);
     return auth.getCredentials().then(credentials => {
       return auth.login(credentials).then(() => {
         acl.fetcher = new rdf.Fetcher(acl.graph, {
@@ -40,7 +40,7 @@ describe("add", () => {
         agentGroup
       ];
       return acl.addAgentGroup(agentGroup).then(() => {
-        return acl.readAgentsAndAccess(accessees => {
+        return acl.readAgentsAndAccess().then(accessees => {
           return expect(accessees).to.deep.equal(accesseesToMatch);
         });
       });
@@ -67,7 +67,7 @@ describe("add", () => {
         agentGroup
       ];
       return acl.addAgentGroup(agentGroup).then(() => {
-        return acl.readAgentsAndAccess(accessees => {
+        return acl.readAgentsAndAccess().then(accessees => {
           return expect(accessees).to.deep.equal(accesseesToMatch);
         });
       });

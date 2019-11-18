@@ -1,15 +1,16 @@
 const { expect } = require("chai");
 const auth = require("solid-auth-cli");
 const rdf = require("rdflib");
+const ns = require("solid-namespace")(rdf);
 const fs = require("fs");
 const aclClient = require("../index");
 
 const resource = "https://lalasepp1.solid.community/profile/.acl";
 const acl = new aclClient(resource);
 
-describe("add", () => {
+describe("adding an Agent", () => {
   before("Setting up auth...", async function() {
-    this.timeout(3000);
+    this.timeout(5000);
     return auth.getCredentials().then(credentials => {
       return auth.login(credentials).then(() => {
         acl.fetcher = new rdf.Fetcher(acl.graph, {
@@ -50,7 +51,7 @@ describe("add", () => {
         }
       ];
       return acl.addAgent(agentToAdd).then(() => {
-        return acl.readAgentsAndAccess(agents => {
+        return acl.readAgentsAndAccess().then(agents => {
           return expect(agents).to.deep.equal(agentsToMatch);
         });
       });
@@ -83,7 +84,7 @@ describe("add", () => {
         }
       ];
       return acl.addAgent(agentToAdd).then(() => {
-        return acl.readAgentsAndAccess(agents => {
+        return acl.readAgentsAndAccess().then(agents => {
           return expect(agents).to.deep.equal(agentsToMatch);
         });
       });
@@ -96,7 +97,6 @@ describe("add", () => {
       type: "Agent",
       access: ["http://www.w3.org/ns/auth/acl#Read"]
     };
-
-    return acl.deleteAgent(addedAgent, { debug: true });
+    return acl.deleteAgent(addedAgent);
   });
 });

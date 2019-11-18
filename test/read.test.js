@@ -88,4 +88,22 @@ describe("read", () => {
       });
     });
   });
+
+  describe("readAccess()", () => {
+    it("reads and returns the access of an identifier", () => {
+      accessToMatch = ["http://www.w3.org/ns/auth/acl#Read"];
+      return acl
+        .readAccess("https://lalasepp1.solid.community/profile/.acl#Read")
+        .then(access => {
+          return expect(access).to.deep.equal(accessToMatch);
+        });
+    });
+
+    it("reads and returns the access of an agent identifier", () => {
+      accessToMatch = ["http://www.w3.org/ns/auth/acl#Read"];
+      return acl.readAccess("http://xmlns.com/foaf/0.1/Agent").then(access => {
+        return expect(access).to.deep.equal(accessToMatch);
+      });
+    });
+  });
 });
