@@ -51,7 +51,7 @@ describe("adding an Agent", () => {
         }
       ];
       return acl.addAgent(agentToAdd).then(() => {
-        return acl.readAgentsAndAccess().then(agents => {
+        return acl.readAccessControl().then(agents => {
           return expect(agents).to.deep.equal(agentsToMatch);
         });
       });
@@ -84,7 +84,7 @@ describe("adding an Agent", () => {
         }
       ];
       return acl.addAgent(agentToAdd).then(() => {
-        return acl.readAgentsAndAccess().then(agents => {
+        return acl.readAccessControl().then(agents => {
           return expect(agents).to.deep.equal(agentsToMatch);
         });
       });

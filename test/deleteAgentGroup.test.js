@@ -6,23 +6,23 @@ const aclClient = require("../index");
 const resource = "https://lalasepp1.solid.community/profile/.acl";
 const acl = new aclClient(resource);
 let originalState = null;
-const testAgents = [
+const testAgentGroups = [
   {
-    name: "https://ludwig.owntech.de/profile/card#me",
-    type: "Agent",
+    name: "http://xmlns.com/foaf/0.1/Account",
+    type: "AgentGroup",
     access: [
       "http://www.w3.org/ns/auth/acl#Read",
       "http://www.w3.org/ns/auth/acl#Write"
     ]
   },
   {
-    name: "https://bejow.owntech.de/profile/card#me",
-    type: "Agent",
+    name: "http://www.w3.org/ns/solid/terms#Account",
+    type: "AgentGroup",
     access: ["http://www.w3.org/ns/auth/acl#Read"]
   }
 ];
 
-describe("deleting an Agent", () => {
+describe("deleting an AgentGroup", () => {
   before("Setting up auth...", async function() {
     this.timeout(5000);
     return auth.getCredentials().then(credentials => {
@@ -36,29 +36,31 @@ describe("deleting an Agent", () => {
             originalState = agents;
           })
           .then(() => {
-            return acl.addAgent(testAgents[0]);
+            return acl.addAgentGroup(testAgentGroups[0]);
           });
       });
     });
   });
 
-  describe("deleteAgent()", () => {
-    it("deletes an agent", () => {
+  describe("deleteAgentGroup()", () => {
+    it("deletes an agent group", () => {
       return acl
-        .deleteAgent({ name: "https://ludwig.owntech.de/profile/card#me" })
+        .deleteAgentGroup({ name: testAgentGroups[0].name })
         .then(() => {
-          return acl.readAccessControl().then(agents => {
+          return acl.readAccessControl({ force: true }).then(agents => {
             return expect(agents).to.deep.equal(originalState);
           });
         });
     });
 
-    it("deletes an agent from an existing identifier", () => {
-      return acl.addAgent(testAgents[1]).then(() => {
+    it("deletes an agent group from an existing identifier", () => {
+      return acl.addAgentGroup(testAgentGroups[1]).then(() => {
         return acl
-          .deleteAgent("https://bejow.owntech.de/profile/card#me")
+          .deleteAgentGroup(testAgentGroups[1].name, {
+            debug: true
+          })
           .then(() => {
-            return acl.readAccessControl().then(agents => {
+            return acl.readAccessControl({ force: true }).then(agents => {
               return expect(agents).to.deep.equal(originalState);
             });
           });

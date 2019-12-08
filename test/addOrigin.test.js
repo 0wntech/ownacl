@@ -6,7 +6,20 @@ const aclClient = require("../index");
 const resource = "https://lalasepp1.solid.community/profile/.acl";
 const acl = new aclClient(resource);
 
-describe("adding an AgentGroup", () => {
+const testOrigins = [
+  {
+    name: "https://drive.owntech.io/",
+    type: "Origin",
+    access: ["Read", "Write"]
+  },
+  {
+    name: "https://drive.owntech.io/",
+    type: "Origin",
+    access: ["Read"]
+  }
+];
+
+describe("adding an Origin", () => {
   before("Setting up auth...", async function() {
     this.timeout(5000);
     return auth.getCredentials().then(credentials => {
@@ -18,13 +31,8 @@ describe("adding an AgentGroup", () => {
     });
   });
 
-  describe("addAgentGroup()", () => {
-    it("adds agentGroups with the specified access", () => {
-      const agentGroup = {
-        name: "http://xmlns.com/foaf/0.1/Agent",
-        type: "AgentGroup",
-        access: ["Read", "Write"]
-      };
+  describe("addOrigin()", () => {
+    it("adds origins with the specified access", () => {
       accesseesToMatch = [
         {
           name: "https://lalasepp1.solid.community/profile/card#me",
@@ -37,21 +45,22 @@ describe("adding an AgentGroup", () => {
             "http://www.w3.org/ns/auth/acl#Write"
           ]
         },
-        agentGroup
+        testOrigins[0],
+        {
+          name: "http://xmlns.com/foaf/0.1/Agent",
+          type: "AgentGroup",
+          identifier: "https://lalasepp1.solid.community/profile/.acl#Read",
+          access: ["http://www.w3.org/ns/auth/acl#Read"]
+        }
       ];
-      return acl.addAgentGroup(agentGroup).then(() => {
-        return acl.readAccessControl().then(accessees => {
+      return acl.addOrigin(testOrigins[0]).then(() => {
+        return acl.readAccessControl({ force: true }).then(accessees => {
           return expect(accessees).to.deep.equal(accesseesToMatch);
         });
       });
     });
 
-    it("adds agentGroups and deletes old Access", () => {
-      const agentGroup = {
-        name: "http://xmlns.com/foaf/0.1/Agent",
-        type: "AgentGroup",
-        access: ["Read"]
-      };
+    it("adds origins and deletes old Access", () => {
       accesseesToMatch = [
         {
           name: "https://lalasepp1.solid.community/profile/card#me",
@@ -64,13 +73,23 @@ describe("adding an AgentGroup", () => {
             "http://www.w3.org/ns/auth/acl#Write"
           ]
         },
-        agentGroup
+        testOrigins[1],
+        {
+          name: "http://xmlns.com/foaf/0.1/Agent",
+          type: "AgentGroup",
+          identifier: "https://lalasepp1.solid.community/profile/.acl#Read",
+          access: ["http://www.w3.org/ns/auth/acl#Read"]
+        }
       ];
-      return acl.addAgentGroup(agentGroup).then(() => {
-        return acl.readAccessControl().then(accessees => {
+      return acl.addOrigin(testOrigins[1]).then(() => {
+        return acl.readAccessControl({ force: true }).then(accessees => {
           return expect(accessees).to.deep.equal(accesseesToMatch);
         });
       });
     });
+  });
+
+  after("Cleaning up...", () => {
+    return acl.deleteOrigin(testOrigins[0].name);
   });
 });

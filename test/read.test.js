@@ -31,7 +31,7 @@ describe("read", () => {
     });
   });
 
-  describe("readAgentsAndAccess()", () => {
+  describe("readAccessControl()", () => {
     it("reads and returns agents and their access", () => {
       accesseesToMatch = [
         {
@@ -52,13 +52,13 @@ describe("read", () => {
           access: ["http://www.w3.org/ns/auth/acl#Read"]
         }
       ];
-      return acl.readAgentsAndAccess().then(accessees => {
+      return acl.readAccessControl().then(accessees => {
         expect(accessees).to.deep.equal(accesseesToMatch);
       });
     });
   });
 
-  describe("readAgents()", () => {
+  describe("readEntities()", () => {
     it("reads and returns agents", () => {
       agentsToMatch = [
         {
@@ -66,25 +66,15 @@ describe("read", () => {
           type: "Agent",
           identifier:
             "https://lalasepp1.solid.community/profile/.acl#ControlReadWrite"
-        }
-      ];
-      return acl.readAgents().then(agents => {
-        expect(agents).to.deep.equal(agentsToMatch);
-      });
-    });
-  });
-
-  describe("readAgentGroups()", () => {
-    it("reads and returns agent groups", () => {
-      agentGroupsToMatch = [
+        },
         {
           name: "http://xmlns.com/foaf/0.1/Agent",
           type: "AgentGroup",
           identifier: "https://lalasepp1.solid.community/profile/.acl#Read"
         }
       ];
-      return acl.readAgentGroups().then(agentGroups => {
-        return expect(agentGroups).to.deep.equal(agentGroupsToMatch);
+      return acl.readEntities().then(agents => {
+        expect(agents).to.deep.equal(agentsToMatch);
       });
     });
   });
