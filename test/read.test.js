@@ -4,7 +4,7 @@ const rdf = require("rdflib");
 const fs = require("fs");
 const aclClient = require("../index");
 
-const resource = "https://lalasepp1.solid.community/profile/.acl";
+const resource = "https://lalasepp1.solid.community/profile/";
 const acl = new aclClient(resource);
 
 describe("read", () => {
@@ -23,7 +23,18 @@ describe("read", () => {
     it("fetches and reads the resource", () => {
       return acl.read().then(triples => {
         return fs.promises
-          .readFile("./test/resources/test.acl", "utf-8")
+          .readFile("./test/resources/profile.acl", "utf-8")
+          .then(file => {
+            expect(triples).to.equal(file);
+          });
+      });
+    });
+    
+    it("fetches and reads the resource from a default location", () => {
+      const acl = new aclClient(resource.replace('profile', 'public'))
+      return acl.read().then(triples => {
+        return fs.promises
+          .readFile("./test/resources/root.acl", "utf-8")
           .then(file => {
             expect(triples).to.equal(file);
           });
