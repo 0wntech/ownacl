@@ -1,3 +1,3 @@
-const aclClient = require('./lib/aclClient.js');
+const AclClient = require("./lib/aclClient.js");
 
-module.exports = aclClient;
+module.exports = AclClient;
