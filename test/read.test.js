@@ -7,7 +7,7 @@ const aclClient = require("../index");
 const resource = "https://lalasepp1.solid.community/profile/";
 const acl = new aclClient(resource);
 
-describe.only("read", () => {
+describe("read", () => {
   before("Setting up auth...", async function() {
     this.timeout(3000);
     return auth.getCredentials().then(credentials => {
