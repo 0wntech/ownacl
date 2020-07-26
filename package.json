@@ -1,6 +1,6 @@
 {
   "name": "ownacl",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "description": "A library to manage access in solid pods.",
   "main": "index.js",
   "scripts": {
