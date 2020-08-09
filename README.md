@@ -38,28 +38,31 @@ To **read all agents and their access** use `readAgentsAndAccess()`:
 ```javascript
 acl.readAgentsAndAccess().then((agentsAndAccess) => {
    // do something with the results in here
-   console.log(agentsAndAccess)
-   // will be an array of objects e.g. 
-   // [{
-   // 'name': 'https://bob.solid.community/profile/card#me',
-   // 'identifier': 'https://bob.solid.community/.acl#owner'
-   // 'type': 'Agent',
-   // 'access': ['Control', 'Read', 'Write']
-   // }, ...]
 })
+```
+The result would look something like this:
+```
+[{
+  'name': 'https://bob.solid.community/profile/card#me',
+  'identifier': 'https://bob.solid.community/.acl#owner'
+  'type': 'Agent',
+  'access': ['Control', 'Read', 'Write']
+}, ...]
 ```
 
 To **read all agents** that are mentioned in the file use `readAgents()`:
 ```javascript
 acl.readAgents().then((agents) => {
-   console.log(agents)
-   // will be an array of objects e.g. 
-   // {
-   // 'name': 'https://bob.solid.community/profile/card#me',
-   // 'identifier': 'https://bob.solid.community/.acl#owner'
-   // 'type': 'Agent',
-   // }
+   // do something with the results in here
 })
+```
+The result would look something like this:
+```
+[{
+  'name': 'https://bob.solid.community/profile/card#me',
+  'identifier': 'https://bob.solid.community/.acl#owner'
+  'type': 'Agent',
+}, ...]
 ```
 
 The resulting array of agents and the identifier property of each agent object can be used with `readAccess(identifier)` to get the access of a single agent. 
