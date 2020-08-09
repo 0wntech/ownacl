@@ -101,10 +101,15 @@ describe("adding an Agent", () => {
       };
       const agentsToMatch = [
         {
+          access: ["http://www.w3.org/ns/auth/acl#Read"],
+          identifier: "https://lalasepp1.solid.community/test.txt.acl#public",
+          name: "http://xmlns.com/foaf/0.1/Agent",
+          type: "AgentGroup",
+        },
+        {
           name: "https://lalasepp1.solid.community/profile/card#me",
           type: "Agent",
-          identifier:
-            "https://lalasepp1.solid.community/profile/.acl#ControlReadWrite",
+          identifier: "https://lalasepp1.solid.community/test.txt.acl#owner",
           access: [
             "http://www.w3.org/ns/auth/acl#Control",
             "http://www.w3.org/ns/auth/acl#Read",

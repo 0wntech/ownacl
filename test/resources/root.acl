@@ -2,7 +2,6 @@
 @prefix acl: <http://www.w3.org/ns/auth/acl#>.
 @prefix l: </>.
 @prefix c: </profile/card#>.
-@prefix c0: <https://ludwig.owntech.de/profile/card#>.
 @prefix n0: <http://xmlns.com/foaf/0.1/>.
 @prefix n1: </.acl#>.
 
@@ -15,7 +14,6 @@ n1:owner
 n1:public
     a acl:Authorization;
     acl:accessTo l:;
-    acl:agent c0:me;
     acl:agentClass n0:Agent;
     acl:default l:;
     acl:mode acl:Read.
