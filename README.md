@@ -32,9 +32,9 @@ Every function of this object will return a [promise](https://developer.mozilla.
 
 ### Reading Permissions
 
-To **read all agents and their access** use `readAgentsAndAccess()`:
+To **read all agents and their access** use `readAccessControl()`:
 ```javascript
-acl.readAgentsAndAccess().then((agentsAndAccess) => {
+acl.readAccessControl().then((accessControl) => {
    // do something with the results in here
 })
 ```
@@ -61,6 +61,34 @@ The result would look something like this:
   'identifier': 'https://bob.solid.community/.acl#owner'
   'type': 'Agent',
 }, ...]
+```
+
+To **read an acl file or its default file** use `read()`:
+```javascript
+acl.read().then((aclBody) => {
+   // do something with the results in here
+})
+```
+The result would look something like this:
+```turtle
+@prefix : <#>.
+@prefix n0: <http://www.w3.org/ns/auth/acl#>.
+@prefix pro: <./>.
+@prefix c: <card#>.
+@prefix n1: <http://xmlns.com/foaf/0.1/>.
+
+:ControlReadWrite
+    a n0:Authorization;
+    n0:accessTo pro:;
+    n0:agent c:me;
+    n0:default pro:;
+    n0:mode n0:Control, n0:Read, n0:Write.
+:Read
+    a n0:Authorization;
+    n0:accessTo pro:;
+    n0:agentClass n1:Agent;
+    n0:default pro:;
+    n0:mode n0:Read.
 ```
 
 The resulting array of agents and the identifier property of each agent object can be used with `readAccess(identifier)` to get the access of a single agent. 
