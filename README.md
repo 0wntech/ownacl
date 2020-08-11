@@ -16,9 +16,7 @@ At the moment the library supports the following functionality:
 * Deleting permissions
 
 Features that are planned for the future as of right now include:
-* Updating existing permissions
-* Creating Access Groups
-* Setting permissions for Access Groups
+* Add Access Groups with member
 * Support a local mode that only updates a local graph
 
 ## Usage
