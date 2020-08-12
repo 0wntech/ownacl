@@ -107,7 +107,7 @@ acl.addAgent(alice).then(() => {
 ```
 
 The same can be done for AgentGroups or Origins by using `addAgentGroup(agentGroup)` or `addOrigin(origin)` and by passing an AgentGroup or Origin object.
-If there is an Agent, an AgentGroup or an Origin that already has the access the new agent is supposed to have, they will share an identifier.
+If there is an Agent, an AgentGroup or an Origin that already has the access the new enitity is supposed to have, they will share an identifier.
 
 To **remove permissions** for an agent you'll need to pass an object with just the agents name to `deleteAgent(agent)`:
 ```javascript
