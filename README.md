@@ -16,9 +16,7 @@ At the moment the library supports the following functionality:
 * Deleting permissions
 
 Features that are planned for the future as of right now include:
-* Updating existing permissions
-* Creating Access Groups
-* Setting permissions for Access Groups
+* Add Access Groups with member
 * Support a local mode that only updates a local graph
 
 ## Usage
@@ -34,9 +32,9 @@ Every function of this object will return a [promise](https://developer.mozilla.
 
 ### Reading Permissions
 
-To **read all agents and their access** use `readAgentsAndAccess()`:
+To **read all agents and their access** use `readAccessControl()`:
 ```javascript
-acl.readAgentsAndAccess().then((agentsAndAccess) => {
+acl.readAccessControl().then((accessControl) => {
    // do something with the results in here
 })
 ```
@@ -65,6 +63,34 @@ The result would look something like this:
 }, ...]
 ```
 
+To **read an acl file or its default file** use `read()`:
+```javascript
+acl.read().then((aclBody) => {
+   // do something with the results in here
+})
+```
+The result would look something like this:
+```turtle
+@prefix : <#>.
+@prefix n0: <http://www.w3.org/ns/auth/acl#>.
+@prefix pro: <./>.
+@prefix c: <card#>.
+@prefix n1: <http://xmlns.com/foaf/0.1/>.
+
+:ControlReadWrite
+    a n0:Authorization;
+    n0:accessTo pro:;
+    n0:agent c:me;
+    n0:default pro:;
+    n0:mode n0:Control, n0:Read, n0:Write.
+:Read
+    a n0:Authorization;
+    n0:accessTo pro:;
+    n0:agentClass n1:Agent;
+    n0:default pro:;
+    n0:mode n0:Read.
+```
+
 The resulting array of agents and the identifier property of each agent object can be used with `readAccess(identifier)` to get the access of a single agent. 
 The same can be done with AgentGroups or Origins by using `readAgentGroups()` or `readOrigins()`.
 
@@ -81,7 +107,7 @@ acl.addAgent(alice).then(() => {
 ```
 
 The same can be done for AgentGroups or Origins by using `addAgentGroup(agentGroup)` or `addOrigin(origin)` and by passing an AgentGroup or Origin object.
-If there is an Agent, an AgentGroup or an Origin that already has the access the new agent is supposed to have, they will share an identifier.
+If there is an Agent, an AgentGroup or an Origin that already has the access the new enitity is supposed to have, they will share an identifier.
 
 To **remove permissions** for an agent you'll need to pass an object with just the agents name to `deleteAgent(agent)`:
 ```javascript
