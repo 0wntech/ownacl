@@ -1,10 +1,10 @@
 {
   "name": "ownacl",
-  "version": "0.0.17",
+  "version": "0.0.18",
   "description": "A library to manage access in solid pods.",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --timeout 5000"
+    "test": "mocha --timeout 10000"
   },
   "repository": {
     "type": "git",
@@ -23,10 +23,14 @@
   },
   "homepage": "https://github.com/0wntech/ownacl#readme",
   "dependencies": {
-    "chai": "^4.2.0",
-    "mocha": "^6.2.2",
     "ownfiles": "^1.2.21",
     "rdflib": "^1.0.6",
     "solid-namespace": "^0.2.0"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^6.2.2",
+    "dotenv": "^8.2.0",
+    "solid-node-client": "^1.2.4"
   }
 }

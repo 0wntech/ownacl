@@ -1,9 +1,8 @@
 const { expect } = require("chai");
-const auth = require("solid-auth-cli");
-const rdf = require("rdflib");
+const { login } = require("../utils");
 const aclClient = require("../index");
 
-const resource = "https://lalasepp1.solid.community/profile/.acl";
+const resource = "https://lalatest.solidcommunity.net/profile/.acl";
 const acl = new aclClient(resource);
 
 const testOrigins = [
@@ -22,12 +21,8 @@ const testOrigins = [
 describe("adding an Origin", () => {
   before("Setting up auth...", async function () {
     this.timeout(5000);
-    return auth.getCredentials().then((credentials) => {
-      return auth.login(credentials).then(() => {
-        acl.fetcher = new rdf.Fetcher(acl.graph, {
-          fetch: auth.fetch,
-        });
-      });
+    return login().then((nodeClient) => {
+      acl.fetcher._fetch = nodeClient.session.fetch.bind(nodeClient);
     });
   });
 
@@ -37,14 +32,14 @@ describe("adding an Origin", () => {
         {
           name: "http://xmlns.com/foaf/0.1/Agent",
           type: "AgentGroup",
-          identifier: "https://lalasepp1.solid.community/profile/.acl#Read",
+          identifier: "https://lalatest.solidcommunity.net/profile/.acl#Read",
           access: ["http://www.w3.org/ns/auth/acl#Read"],
         },
         {
-          name: "https://lalasepp1.solid.community/profile/card#me",
+          name: "https://lalatest.solidcommunity.net/profile/card#me",
           type: "Agent",
           identifier:
-            "https://lalasepp1.solid.community/profile/.acl#ControlReadWrite",
+            "https://lalatest.solidcommunity.net/profile/.acl#ControlReadWrite",
           access: [
             "http://www.w3.org/ns/auth/acl#Control",
             "http://www.w3.org/ns/auth/acl#Read",
@@ -65,14 +60,14 @@ describe("adding an Origin", () => {
         {
           name: "http://xmlns.com/foaf/0.1/Agent",
           type: "AgentGroup",
-          identifier: "https://lalasepp1.solid.community/profile/.acl#Read",
+          identifier: "https://lalatest.solidcommunity.net/profile/.acl#Read",
           access: ["http://www.w3.org/ns/auth/acl#Read"],
         },
         {
-          name: "https://lalasepp1.solid.community/profile/card#me",
+          name: "https://lalatest.solidcommunity.net/profile/card#me",
           type: "Agent",
           identifier:
-            "https://lalasepp1.solid.community/profile/.acl#ControlReadWrite",
+            "https://lalatest.solidcommunity.net/profile/.acl#ControlReadWrite",
           access: [
             "http://www.w3.org/ns/auth/acl#Control",
             "http://www.w3.org/ns/auth/acl#Read",

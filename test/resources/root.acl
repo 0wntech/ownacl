@@ -1,19 +1,18 @@
 @prefix : <#>.
 @prefix acl: <http://www.w3.org/ns/auth/acl#>.
-@prefix l: </>.
+@prefix foaf: <http://xmlns.com/foaf/0.1/>.
+@prefix pub: <./>.
 @prefix c: </profile/card#>.
-@prefix n0: <http://xmlns.com/foaf/0.1/>.
-@prefix n1: </.acl#>.
 
-n1:owner
+:owner
     a acl:Authorization;
-    acl:accessTo l:;
-    acl:agent c:me, <mailto:lalasepp@gmail.com>;
-    acl:default l:;
+    acl:accessTo pub:;
+    acl:agent c:me;
+    acl:default pub:;
     acl:mode acl:Control, acl:Read, acl:Write.
-n1:public
+:public
     a acl:Authorization;
-    acl:accessTo l:;
-    acl:agentClass n0:Agent;
-    acl:default l:;
+    acl:accessTo pub:;
+    acl:agentClass foaf:Agent;
+    acl:default pub:;
     acl:mode acl:Read.

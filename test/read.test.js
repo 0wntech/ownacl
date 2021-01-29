@@ -1,22 +1,19 @@
 const { expect } = require("chai");
-const auth = require("solid-auth-cli");
-const rdf = require("rdflib");
+const { SolidNodeClient } = require("solid-node-client");
 const fs = require("fs");
+const config = require("dotenv").config();
 const aclClient = require("../index");
 
-const resource = "https://lalasepp1.solid.community/profile/";
+const resource = "https://lalatest.solidcommunity.net/profile/";
 const acl = new aclClient(resource);
+const altAcl = new aclClient(resource.replace("profile", "public"));
 
 describe("read", () => {
-  before("Setting up auth...", async function () {
-    this.timeout(3000);
-    return auth.getCredentials().then((credentials) => {
-      return auth.login(credentials).then(() => {
-        acl.fetcher = new rdf.Fetcher(acl.graph, {
-          fetch: auth.fetch,
-        });
-      });
-    });
+  before("Setting up auth...", async () => {
+    const client = new SolidNodeClient();
+    await client.login(config);
+    acl.fetcher._fetch = client.session.fetch.bind(client);
+    altAcl.fetcher._fetch = client.session.fetch.bind(client);
   });
 
   describe("read()", () => {
@@ -31,8 +28,7 @@ describe("read", () => {
     });
 
     it("fetches and reads the resource from a default location", () => {
-      const acl = new aclClient(resource.replace("profile", "public"));
-      return acl.read().then((triples) => {
+      return altAcl.read().then((triples) => {
         return fs.promises
           .readFile("./test/resources/root.acl", "utf-8")
           .then((file) => {
@@ -48,14 +44,13 @@ describe("read", () => {
         {
           name: "http://xmlns.com/foaf/0.1/Agent",
           type: "AgentGroup",
-          identifier: "https://lalasepp1.solid.community/profile/.acl#Read",
+          identifier: "https://lalatest.solidcommunity.net/profile/.acl#Read",
           access: ["http://www.w3.org/ns/auth/acl#Read"],
         },
         {
-          name: "https://lalasepp1.solid.community/profile/card#me",
+          name: "https://lalatest.solidcommunity.net/profile/card#me",
           type: "Agent",
-          identifier:
-            "https://lalasepp1.solid.community/profile/.acl#ControlReadWrite",
+          identifier: "https://lalatest.solidcommunity.net/profile/.acl#ControlReadWrite",
           access: [
             "http://www.w3.org/ns/auth/acl#Control",
             "http://www.w3.org/ns/auth/acl#Read",
@@ -75,13 +70,12 @@ describe("read", () => {
         {
           name: "http://xmlns.com/foaf/0.1/Agent",
           type: "AgentGroup",
-          identifier: "https://lalasepp1.solid.community/profile/.acl#Read",
+          identifier: "https://lalatest.solidcommunity.net/profile/.acl#Read",
         },
         {
-          name: "https://lalasepp1.solid.community/profile/card#me",
+          name: "https://lalatest.solidcommunity.net/profile/card#me",
           type: "Agent",
-          identifier:
-            "https://lalasepp1.solid.community/profile/.acl#ControlReadWrite",
+          identifier: "https://lalatest.solidcommunity.net/profile/.acl#ControlReadWrite",
         },
       ];
       return acl.readEntities().then((agents) => {
@@ -94,7 +88,7 @@ describe("read", () => {
     it("reads and returns the access of an identifier", () => {
       accessToMatch = ["http://www.w3.org/ns/auth/acl#Read"];
       return acl
-        .readAccess("https://lalasepp1.solid.community/profile/.acl#Read")
+        .readAccess("https://lalatest.solidcommunity.net/profile/.acl#Read")
         .then((access) => {
           return expect(access).to.deep.equal(accessToMatch);
         });
